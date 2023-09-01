@@ -1,3 +1,11 @@
+#Usar help() para saber como funciona um método.
+#Usar dir() para saber quais métodos podem ser usados com uma veriável específica.
+
+from collections import Counter, defaultdict
+from functools import reduce
+import math
+import statistics
+
 def tipos_de_print():
     print("Qual seu nome?")
     nome = input()
@@ -94,14 +102,242 @@ def listas():
     print(lista2)
     print("n" in lista2)
 
-    print("\nordenando inversamente a lista3:")
+    print("\invertendo a lista3:")
     print(lista3)
-    lista3.sort(reverse=True)
+    lista3.sort(reverse=True) #ordena na lista atual. Para gerar uma nova lista ordenada use sorted(lista3) ou sorted(lista3, reverse=True) para ordernar inversamente
     print(lista3)
+    lista3.reverse()
+    print(lista3)
+    print(lista3[::-1])
+
+    print("\ncopiando uma lista:")
+    lista4 = lista1.copy()
+    lista5 = lista1 #nessa situação ele usa ponteiro, alterar a lista1 também alterará a lista5 e vice versa
+    print(lista4)
+    print(lista5)
+
+    print("\nfunções de lista:")
+    lista5.pop() #remove o último elemento e RETORNA o último elemento.
+    lista1.pop(2) #é possível remover o elemento de um index específico.
+    lista1.remove([6.7, 7.8, 9.1]) #procura e remove um elemento específico.
+    print(lista5)
+    print(lista1)
+    print(lista4)
+    lista4.clear()
+    print(lista4)
+
+    lista6 = ['jonas','amancio','silva','santos']
+    nome_inteiro = ' '.join(lista6)
+    print(nome_inteiro)
+
+    print(lista1.index((3,4))) #mostra em qual posição está o primeiro item encontrado
+    print(lista1.index(True,3,6)) #é possível definir uma posição a partir da qual ele vai começar a busca
     
 
+    print("\ndados da lista1")
+    print(len(lista3))
+    print(len(lista3[3:]))
+    print(max(lista3))
+    print(min(lista3))
+    print(sum(lista3))
+    print(tuple(lista3))
+
+    #desempacotamento de lista
+    lista7 = [1,2,3]
+    num1, num2, num3 = lista7 #a quantidade de variáveis deve ser exatamente igual a quantidade de itens na lsita
+    print(num1,num2,num3)
 
 
+def tuplas(): # não possui a função copy() pois existe shallow copy. tupla1 = tupla2 não usa ponteiro
+    tupla1 = (1,2,3)
+    tupla2 = 1,2,3
+    tupla3 = tuple(range(1,6))
+    print(tupla3)
+    print(type(tupla1))
+    
 
+def dicionario():
+    dic1 = {'br':'Brasil','eua':'estados unidos da america'.title()}
+    dic2 = dict(ru='russia'.title(),py='Paraguay')
+    print(type(dic1))
+    print(type(dic2))
+    print(dic1['eua'])
+    print(dic2.get('ru'))
+    print(dic1.get('py', 'não encontrado'.title()))
+    dic1['cd'] = 'canada'.title() #adiciona novo dado, ou atualiza caso a chave já existe
+    dic1.update({'cu':'Cuba'}) #adiciona novo dado, ou atualiza caso a chave já existe
+    print(dic1.pop('br')) #remove o item da chave passada e retorna o value da chave removida
+    del dic1['eua'] #não gera erro caso a chave não exista
+    print(dic1)
 
-listas()
+    dic3 = {}.fromkeys(['nome','email','usuario','senha'],'desconhecido')
+    print(dic3)
+    print(dic3.keys())
+    print(dic3.values())
+    
+def conjuntos():
+    set1 = set({1,2,3,4,5,1,2,3,4})
+    set2 = set({5,6,7,8,9})
+    set1.add(77)
+    set1.remove(4) #remove todas as ocorrências do valor passado. Gera erro caso o valor não exista.
+    set1.discard(2) #não gera erro caso o valor não exista.
+    print(set1)
+    print(set1.union(set2))
+    print(set1 | set2)
+    print(set1.intersection(set2))
+    print(set1 & set2)
+    print(set1.difference(set2))
+    print(set2.difference(set1))
+
+def modulo_collections():
+    lista1 = [1,1,1,1,1,2,2,2,2,2,2,3,3]
+    contador = Counter(lista1)
+    print(contador) #calcula a quantidade de ocorrências de cada item da lista. Funciona com string, tupla, dicionario, lista, sets...
+    print(contador.most_common(2)) #mostra os 2 itens que mais apareceram e quantas vezes apareceram
+
+    dicionario1 = defaultdict(lambda: 'desconhecido') #cria um dicionario que atribui um valor padrão à chaves inexistentes.
+    dicionario1['chave1'] = 'dado da chave 1'
+    print(dicionario1['chave1'])
+    print(dicionario1['chave2'])
+    
+
+def docstring_func(arg1,arg2):
+    """
+    Função que mostra como documentar uma função.
+    :param arg1: Argumento 1 de exemplo
+    :param arg2: Argumento 2 de exemplo
+    :return: Retorna a documentação da função.
+    """
+    return help(docstring_func)
+
+def o_que_e_args(*args):
+    """
+    Explicação o parâmetro *args.
+    Pode ter qualquer nome, contanto que tenha o asterísco.
+    É uma tupla que contém os valores de todos os parâmetros extras que foram passados para a função.
+    Caso eu envie uma collection e deseje desempacota-los, devo envia-los com asterísco.
+    A ordem obrigatória é: (parametros_obrigatorios, *args, parametros_opcionais, **kwargs).
+    """
+    return help(o_que_e_args)
+
+def o_que_e_kwargs(**kwargs):
+    """
+    Explicação o parâmetro **kwargs.
+    Pode ter qualquer nome, contanto que tenha o asterísco.
+    Contém todos os parâmetros extras nomeados, em formato de dicionário.
+    Os dados são acessados com kwargs.items().
+    Caso eu envie um dicionário e deseje desempacota-los, devo envia-los com dois asteríscos.
+    A ordem obrigatória é: (parametros_obrigatorios, *args, parametros_opcionais, **kwargs).
+    """
+    return help(o_que_e_args)
+
+def list_comprehension():
+
+    def ao_quadrado(valor):
+        return valor*valor
+
+    numeros = [1,2,3,4,5]
+    lc = [ao_quadrado(numero) for numero in numeros]
+    pares = [numero for numero in numeros if not numero % 2]
+    impares = [numero for numero in numeros if numero % 2]
+    res = [numero * 2 if numero % 2 else numero / 2 for numero in numeros]
+    print(lc)
+    print(pares)
+    print(impares)
+    print(res)
+
+def lambda_function(x):
+    """
+    Expressões lambda são funções sem nome.
+    """
+    calc = lambda x: 3 * x + 1
+    calc2 = lambda nome,sobrenome: nome.title() + ' ' + sobrenome.title()
+    print(calc(x))
+    print(calc2('jonas','amancio'))
+
+    def funcao_quadratica(a,b,c):
+        return lambda x: a * x ** 2 + b * x + c
+    teste = funcao_quadratica(2,3,-5)
+    print(teste(0))
+    print(teste(1))
+    print(teste(2))
+
+def maps():
+    """
+    Map é uma função que recebe 2 parâmetros, uma função e um iterável.
+    Retorna um Map Object que pode ser acessado transformando em uma coleção.
+    Ao utilizar os dados do Map Object, ele é zerado.
+    """
+    def area(r):
+        return math.pi * (r ** 2)
+    raios = [2,5,7.1,0.3,10,44]
+    areas = map(area,raios)
+    print(list(areas))
+    print(list(areas)) #vai imprimir vazio pois já foi utilizado
+    print(list(map(lambda r: math.pi * (r ** 2),raios)))
+    pass
+
+def filters():
+    """
+    Filters é uma função que recebe 2 parâmetros, uma função que retorna um booleano e um iterável.
+    Retorna um Filter Object que pode ser acessado transformando em uma coleção.
+    Ao utilizar os dados do Filter Object, ele é zerado.
+    """
+    dados = [1.2,2.7,0.8,4.1,4.3,-0.1]
+    media = statistics.mean(dados)
+    print(media)
+    res = filter(lambda x: x > media, dados)
+    print(list(res))
+    nomes = ['vanessa','ana','maria']
+    lista = list(map(lambda nome: f'Sua instrutora é {nome.title()}', filter(lambda nome: len(nome) >= 5, nomes)))
+    print(lista)
+
+def reduce_from_functools():
+    """
+    Passo 1: res1 = f(a1, a2)
+    Passo 2: res2 = f(res1, a3)
+    Passo 3: res3 = f(res2, a4)
+    .
+    .
+    .
+    Passo n: resn = f(resm, an)
+    """
+    dados = [2,3,4,5,7,11,13,17,19,23,29]
+    multi = lambda x, y: x * y
+    res = reduce(multi,dados)
+    print(res)
+
+def any_and_all():
+    print(all([0,1,2,3])) #verifica se todos os elementos de um iteravel são True
+    print(any([0,1,2,3])) #verifica se algum dos elementos de um iteravel são True
+
+def debug_pdb():
+    """
+    Importar pdb e utilizar pdb.set_trace() para colocar um breakpointem python inferior a 3.7.
+    Em python 3.7 ou superior é possível utilizar a função breakpoint() sem a necessidade de import.
+    Os comandos são:
+    l: mostrar onde estamos no código
+    n: passar para próxima linha de código
+    p: imprimir variável
+    c: continuar execução e finalizar pdb
+    """
+
+    nome = 'jonas'
+    sobrenome = 'amancio'
+    # import pdb; pdb.set_trace()
+    breakpoint()
+    nome_completo = nome.title() + ' ' + sobrenome.title()
+    print(nome_completo)
+
+def function_generator(valor_maximo):
+    contador = 1
+    while contador <= valor_maximo:
+        yield contador
+        contador = contador + 1
+
+gen = function_generator(5)
+print(next(gen))
+print(next(gen))
+print(next(gen))
+print(next(gen))
+print(next(gen))
