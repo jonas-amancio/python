@@ -335,9 +335,99 @@ def function_generator(valor_maximo):
         yield contador
         contador = contador + 1
 
-gen = function_generator(5)
-print(next(gen))
-print(next(gen))
-print(next(gen))
-print(next(gen))
-print(next(gen))
+# gen = function_generator(5)
+# print(next(gen))
+# print(next(gen))
+# print(next(gen))
+# print(next(gen))
+# print(next(gen))
+
+""" Decorator """
+
+def seja_educado(funcao):
+    def sendo():
+        print("foi um prazer conhecer você!")
+        funcao()
+        print("Tenha um ótimo dia!")
+    return sendo
+
+def saudacao():
+    print("Seja bem-vindo ao ITEC!")
+
+def demissao():
+    print("Não volte mais aqui.")
+
+contratacao_educada = seja_educado(saudacao)
+demissao_educada = seja_educado(demissao)
+# contratacao_educada()
+# demissao_educada()
+
+""" Decorator With Syntax Sugar """
+
+def seja_educado_mesmo(funcao):
+    def sendo_mesmo():
+        print("É um prazer conhecer você!")
+        funcao()
+        print("Espero que possamos nos dar bem!")
+    return sendo_mesmo
+
+@seja_educado_mesmo
+def apresentando():
+    print("Meu nome é Jonas!")
+
+# apresentando()
+
+
+""" Decorators With Different Signatures - Decorator Pattern """
+
+def gritar(funcao):
+    def aumentar(*args, **kwargs):
+        return funcao(*args, **kwargs).upper()
+    return aumentar
+
+@gritar
+def saudacao(nome):
+    return f'Olá, meu nome é {nome}'
+
+@gritar
+def reclamar(nome, atitude):
+    return f'{nome} você tem sido muito {atitude}!'
+
+# print(saudacao('Jonas'))
+# print(reclamar('Jonas','Arrogante'))
+
+
+""" Decorators With Arguments """
+
+def verifica_primeiro_argumento(valor):
+    def interna(funcao):
+        def outra(*args,**kwargs):
+            if args and args[0] != valor:
+                return f'Valor incorreto! Primeiro argumento precisa ser {valor} no lugar de {args[0]}'
+            return funcao(*args,**kwargs)
+        return outra
+    return interna
+
+@verifica_primeiro_argumento(10)
+def soma_dez(num1,num2):
+    return num1 + num2
+
+def multiplica_dez(num1,num2):
+    return num1 * num2
+
+def divide_dez(num1,num2):
+    return num1 / num2
+
+print(soma_dez(10,5))
+print(soma_dez(5,10))
+
+verifica = verifica_primeiro_argumento(10)
+
+multiplica = verifica(multiplica_dez)
+divide = verifica(divide_dez)
+
+print(multiplica(10,5))
+print(multiplica(7,10))
+
+print(divide(10,2))
+print(divide(2,10))
