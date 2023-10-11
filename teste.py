@@ -418,16 +418,50 @@ def multiplica_dez(num1,num2):
 def divide_dez(num1,num2):
     return num1 / num2
 
-print(soma_dez(10,5))
-print(soma_dez(5,10))
+# print(soma_dez(10,5))
+# print(soma_dez(5,10))
 
-verifica = verifica_primeiro_argumento(10)
+# verifica = verifica_primeiro_argumento(10)
 
-multiplica = verifica(multiplica_dez)
-divide = verifica(divide_dez)
+# multiplica = verifica(multiplica_dez)
+# divide = verifica(divide_dez)
 
-print(multiplica(10,5))
-print(multiplica(7,10))
+# print(multiplica(10,5))
+# print(multiplica(7,10))
 
-print(divide(10,2))
-print(divide(2,10))
+# print(divide(10,2))
+# print(divide(2,10))
+
+""" Decorators With Wraps """
+
+from functools import wraps
+
+""" Wraps irá preservar os metadados da função. sem ele, o __name__ e __docs__
+retornarão as informações do decorator e não da função chamada"""
+def ver_log(funcao):
+    @wraps(funcao)
+    def logar(*args, **kwargs):
+        """Função logar"""
+        print(f'você chamou: {funcao.__name__}')
+        print(f'documentação: {funcao.__doc__}')
+        return funcao(*args,**kwargs)
+    return logar
+
+@ver_log
+def soma(a, b):
+    """Soma dois números."""
+    return a + b
+
+# print(soma(10,30))
+# print(soma.__name__)
+# print(soma.__doc__)
+
+
+""" ZIP function """
+a = (1,2,3)
+b = (4,5,6)
+# print(dict(zip(a,b)))
+# print(tuple(zip(a,b)))
+
+
+
