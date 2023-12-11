@@ -465,3 +465,9 @@ b = (4,5,6)
 
 
 
+
+import datetime
+def data_hora():
+    print(datetime.datetime.now())
+
+data_hora()
