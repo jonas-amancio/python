@@ -469,5 +469,67 @@ b = (4,5,6)
 import datetime
 def data_hora():
     print(datetime.datetime.now())
+    print(datetime.datetime.now().replace(hour=16, minute=0, second=0, microsecond=0))
+    print(datetime.datetime(2019, 1, 3, 14))
+    nascimento = '02/08/1996'
+    split = nascimento.split('/')
+    data = datetime.datetime(int(split[2]), int(split[1]), int(split[0]))
+    print(data, type(data))
+    print(data.year)
+    print(data.month)
+    print(data.day)
+    print(data.hour)
+    print(data.minute)
+    print(data.microsecond)
+
+    #delta = diferença entre datas
+    inicio = datetime.datetime.now()
+    fim = datetime.datetime(2024, 8, 2)
+    tempo = inicio - fim
+    tempo_invertido = fim - inicio
+    print(tempo)
+    print(tempo_invertido)
+
+    #adicionando dias
+    compra = datetime.datetime.now()
+    boleto = datetime.datetime.now() + datetime.timedelta(days=3)
+    teste = datetime.datetime.now() - datetime.timedelta(days=5)
+    print(compra)
+    print(boleto)
+    print(teste)
+    print()
+
+    compra_hora = datetime.datetime.now()
+    boleto_hora = datetime.datetime.now() + datetime.timedelta(hours=3)
+    teste_hora = datetime.datetime.now() - datetime.timedelta(hours=5)
+    print(compra_hora)
+    print(boleto_hora)
+    print(teste_hora)
+    print()
+
+    teste = datetime.time()
+    print(teste)
+    print(type(teste))
+    print(repr(teste))
+    combinacao = datetime.datetime.combine((datetime.datetime.now() + datetime.timedelta(days=2)), datetime.time())
+    print(combinacao)
+    print(datetime.time(hour=17, minute=30))
+    print()
+
+    #segunda-feira = 0 e assim por diante até o 6 = domingo
+    print(datetime.datetime.now().weekday())
+    print()
+
+    #formatando com strtime()
+    teste = datetime.datetime.today().strftime('%d/%m/%Y')
+    teste2 = datetime.datetime.time(datetime.datetime.now()).strftime('%H:%M:%S')
+    print(teste)
+    print(teste2)
+    
+    #formatando inversamente
+    teste3 = datetime.datetime.strptime('02/08/1996', '%d/%m/%Y')
+    print(teste3)
+    print()
+    
 
 data_hora()
